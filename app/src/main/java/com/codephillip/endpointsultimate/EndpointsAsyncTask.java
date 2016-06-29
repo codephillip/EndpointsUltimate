@@ -8,8 +8,6 @@ import com.codephillip.api.backend.quoteEndpoint.QuoteEndpoint;
 import com.codephillip.api.backend.quoteEndpoint.model.Quote;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
-import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
-import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -25,25 +23,31 @@ class EndpointsAsyncTask extends AsyncTask<Void, Void, List<Quote>> {
 
     @Override
     protected List<Quote> doInBackground(Void... params) {
-        if(myApiService == null) {  // Only do this once
-            QuoteEndpoint.Builder builder = new QuoteEndpoint.Builder(AndroidHttp.newCompatibleTransport(),
-                    new AndroidJsonFactory(), null)
-                    // options for running against local devappserver
-                    // - 10.0.2.2 is localhost's IP address in Android emulator
-                    // - turn off compression when running against local devappserver
-                    .setRootUrl("http://192.168.1.128:8080/_ah/api/")
-                    .setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
-                        @Override
-                        public void initialize(AbstractGoogleClientRequest<?> abstractGoogleClientRequest) throws IOException {
-                            abstractGoogleClientRequest.setDisableGZipContent(true);
-                        }
-                    });
-            // end options for devappserver
+        if(myApiService == null) {
+            //Only do this once
+            //devappserver
+//            QuoteEndpoint.Builder builder = new QuoteEndpoint.Builder(AndroidHttp.newCompatibleTransport(),
+//                    new AndroidJsonFactory(), null)
+//                    // options for running against local devappserver
+//                    // - 10.0.2.2 is localhost's IP address in Android emulator
+//                    // - turn off compression when running against local devappserver
+//                    .setRootUrl("http://192.168.1.128:8080/_ah/api/")
+//                    .setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
+//                        @Override
+//                        public void initialize(AbstractGoogleClientRequest<?> abstractGoogleClientRequest) throws IOException {
+//                            abstractGoogleClientRequest.setDisableGZipContent(true);
+//                        }
+//                    });
+
+            //online server
+            QuoteEndpoint.Builder builder = new QuoteEndpoint.Builder(AndroidHttp.newCompatibleTransport(), new AndroidJsonFactory(), null)
+                    .setRootUrl("https://endpointsapp-1007.appspot.com/_ah/api/");
 
             myApiService = builder.build();
         }
 
         try {
+//            myApiService.insertQuote(new Quote("Yuri", "Main character"));
             return myApiService.listQuote().execute().getItems();
         } catch (IOException e) {
             return Collections.EMPTY_LIST;
