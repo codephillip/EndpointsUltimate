@@ -48,15 +48,23 @@ class EndpointsAsyncTask extends AsyncTask<Void, Void, List<Quote>> {
         }
 
         try {
-            List<Quote> z = myApiService.listQuote().execute().getItems();
-            long id = z.get(0).getId();
-            myApiService.removeQuote(id).execute();
+            //delete first item in server DB
+            //List<Quote> z = myApiService.listQuote().execute().getItems();
+            //long id = z.get(0).getId();
+            //myApiService.removeQuote(id).execute();
             //delete
             //myApiService.removeQuote(5076495651307520L).execute();
             //update
             //String x = String.valueOf(myApiService.updateQuote(new Quote().setId(5066549580791808L).setWho("mememe").setWhat("deleted and gone")).execute());
             //post
-            String x = String.valueOf(myApiService.insertQuote(new Quote().setWho("Makarov2").setWhat("Best in Call of duty")).execute());
+            //String x = String.valueOf(myApiService.insertQuote(new Quote().setWho("Makarov2").setWhat("Best in Call of duty")).execute());
+            //multiple post
+            Quote quote = new Quote();
+            for (int i = 0; i < 4; i++){
+                quote.setWho("Makarov"+i).setWhat("Bad guy"+i);
+                myApiService.insertQuote(quote).execute();
+            }
+
             //Log.d(TAG, "doInBackground: "+x);
             return null;
             //return myApiService.listQuote().execute().getItems();
