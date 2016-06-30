@@ -2,7 +2,6 @@ package com.codephillip.endpointsultimate;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.codephillip.api.backend.quoteEndpoint.QuoteEndpoint;
@@ -49,13 +48,16 @@ class EndpointsAsyncTask extends AsyncTask<Void, Void, List<Quote>> {
         }
 
         try {
+            List<Quote> z = myApiService.listQuote().execute().getItems();
+            long id = z.get(0).getId();
+            myApiService.removeQuote(id).execute();
             //delete
-            String x = String.valueOf(myApiService.removeQuote(5076495651307520L).execute());
+            //myApiService.removeQuote(5076495651307520L).execute();
             //update
             //String x = String.valueOf(myApiService.updateQuote(new Quote().setId(5066549580791808L).setWho("mememe").setWhat("deleted and gone")).execute());
             //post
-            //String x = String.valueOf(myApiService.insertQuote(new Quote().setWho("Makarov2").setWhat("Best in Call of duty")).execute());
-            Log.d(TAG, "doInBackground: "+x);
+            String x = String.valueOf(myApiService.insertQuote(new Quote().setWho("Makarov2").setWhat("Best in Call of duty")).execute());
+            //Log.d(TAG, "doInBackground: "+x);
             return null;
             //return myApiService.listQuote().execute().getItems();
         } catch (IOException e) {
