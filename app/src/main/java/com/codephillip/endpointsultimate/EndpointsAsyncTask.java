@@ -2,6 +2,7 @@ package com.codephillip.endpointsultimate;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.codephillip.api.backend.quoteEndpoint.QuoteEndpoint;
@@ -14,6 +15,7 @@ import java.util.Collections;
 import java.util.List;
 
 class EndpointsAsyncTask extends AsyncTask<Void, Void, List<Quote>> {
+    private static final String TAG = EndpointsAsyncTask.class.getSimpleName();
     private static QuoteEndpoint myApiService = null;
     private Context context;
 
@@ -47,8 +49,10 @@ class EndpointsAsyncTask extends AsyncTask<Void, Void, List<Quote>> {
         }
 
         try {
-//            myApiService.insertQuote(new Quote("Yuri", "Main character"));
-            return myApiService.listQuote().execute().getItems();
+            String x = String.valueOf(myApiService.insertQuote(new Quote().setWho("Makarov2").setWhat("Best in Call of duty")).execute());
+            Log.d(TAG, "doInBackground: "+x);
+            return null;
+//            return myApiService.listQuote().execute().getItems();
         } catch (IOException e) {
             return Collections.EMPTY_LIST;
         }
@@ -56,8 +60,9 @@ class EndpointsAsyncTask extends AsyncTask<Void, Void, List<Quote>> {
 
     @Override
     protected void onPostExecute(List<Quote> result) {
-        for (Quote q : result) {
-            Toast.makeText(context, q.getWho() + " : " + q.getWhat(), Toast.LENGTH_LONG).show();
-        }
+//        for (Quote q : result) {
+//            Toast.makeText(context, q.getWho() + " : " + q.getWhat(), Toast.LENGTH_LONG).show();
+//        }
+        Toast.makeText(context, "finished", Toast.LENGTH_SHORT).show();
     }
 }

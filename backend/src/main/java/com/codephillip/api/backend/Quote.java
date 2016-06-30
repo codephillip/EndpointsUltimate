@@ -15,6 +15,11 @@ public class Quote {
 
     public Quote() {}
 
+    public Quote(String who, String what) {
+        this.who = who;
+        this.what = what;
+    }
+
     public Long getId() {
         return id;
     }
